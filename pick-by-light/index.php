@@ -236,6 +236,10 @@
             }
             return false;
         }
+        setInterval(function() {
+            location.reload();
+        }, 5000);
+
     </script>
 
 </body>
