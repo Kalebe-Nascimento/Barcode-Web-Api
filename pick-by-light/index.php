@@ -108,6 +108,36 @@
             text-align: center;
         }
 
+        .search-form {
+            margin-bottom: 20px;
+        }
+
+        .search-form label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .search-form input[type=text] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            width: 200px;
+        }
+
+        .search-form button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .search-form button:hover {
+            background-color: #45a049;
+        }
+
         @media screen and (max-width: 600px) {
             table {
                 overflow-x: auto;
@@ -120,6 +150,11 @@
 
     <div class="container">
         <h2>Products</h2>
+        <form class="search-form" id="searchForm" onsubmit="return searchByBarcode()">
+            <label for="barcode">Buscar por código de barras:</label>
+            <input type="text" id="barcode" name="barcode" required>
+            <button type="submit">Buscar</button>
+        </form>
         <?php include 'display_products.php'; ?>
     </div>
 
@@ -164,6 +199,42 @@
                 }
             };
             xhr.send("barcode=" + encodeURIComponent(barcode));
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            var emptyMsg = document.querySelector(".empty-msg");
+            var searchForm = document.getElementById("searchForm");
+            if (emptyMsg && emptyMsg.parentNode.style.display !== "none") {
+                searchForm.style.display = "none";
+            } else {
+                searchForm.style.display = "";
+            }
+        });
+
+        function searchByBarcode() {
+            var input = document.getElementById("barcode").value.toUpperCase();
+            var table = document.querySelector(".container table");
+            var rows = table.getElementsByTagName("tr");
+
+            for (var i = 1; i < rows.length; i++) {
+                var cells = rows[i].getElementsByTagName("td");
+                var rowFound = false;
+
+                for (var j = 0; j < cells.length; j++) {
+                    var cellText = cells[j].textContent || cells[j].innerText;
+                    if (cellText.toUpperCase().indexOf(input) > -1) {
+                        rowFound = true;
+                        break;
+                    }
+                }
+
+                if (rowFound) {
+                    rows[i].style.display = "";
+                } else {
+                    rows[i].style.display = "none";
+                }
+            }
+            return false;
         }
     </script>
 

@@ -12,7 +12,7 @@ try {
         $stmt = $db->query('SELECT * FROM Product');
 
         echo "<table>";
-        echo "<tr><th>Barcode</th><th>Added Time</th><th>Modified Time</th><th>Title</th><th>Description</th><th>Brand</th><th>Manufacturing</th><th>Action</th></tr>";
+        echo "<tr><th>Barcode</th><th>Added Time</th><th>Modified Time</th><th>Title</th><th>Description</th><th>Brand</th><th>Manufacturing</th><th>Quantity</th><th>Action</th></tr>";
 
         while ($row = $stmt->fetchArray(SQLITE3_ASSOC)) {
             echo "<tr>";
@@ -23,6 +23,7 @@ try {
             echo "<td>" . $row['description'] . "</td>";
             echo "<td>" . $row['brand'] . "</td>";
             echo "<td>" . $row['manufacturing'] . "</td>";
+            echo "<td>" . $row['quantity'] . "</td>";
             echo "<td><button class='delete-btn' onclick='confirmDelete(\"" . $row['barcode'] . "\")'>Delete</button></td>";
             echo "</tr>";
         }

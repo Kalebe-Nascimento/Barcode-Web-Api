@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->bindValue(':description', $_POST['description']);
             $stmt->bindValue(':brand', $_POST['brand']);
             $stmt->bindValue(':manufacturing', $_POST['manufacturing']);
-
+            
             $result = $stmt->execute();
 
             if ($result) {
@@ -28,7 +28,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo "Erro ao inserir os dados.";
             }
         } else {
-            echo "O código de barras já existe na tabela.";
+            $db->exec("UPDATE Product SET quantity = quantity + 1 WHERE barcode = '{$_POST['barcode']}'");
+            echo "Quantidade do produto incrementada.";
         }
     } else {
         echo "Todos os campos devem ser fornecidos.";
@@ -36,3 +37,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 } else {
     echo "Método inválido.";
 }
+?>
